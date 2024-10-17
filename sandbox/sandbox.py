@@ -17,7 +17,7 @@ nouveau_reseau_arbre = pd.merge(left=reseauArbre, right=a_remplacer, on="infra_i
 colonnes_a_garder = [col for col in nouveau_reseau_arbre.columns if not col.endswith('_y')]
 
 reseau_arbre_final = nouveau_reseau_arbre[colonnes_a_garder]
-reseau_arbre_final["longueur_par_maison"] = reseau_arbre_final["longueur"]/reseau_arbre_final["nb_maisons"]
+reseau_arbre_final["longueur_par_maison"] = reseau_arbre_final["nb_maisons"]/reseau_arbre_final["longueur"]
 
 reseau_trie = reseau_arbre_final.sort_values(by="longueur_par_maison", ascending=False)
 print(reseau_trie.head(20))
