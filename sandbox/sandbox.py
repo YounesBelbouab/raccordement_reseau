@@ -11,7 +11,7 @@ pd.set_option('display.width', None)
 pd.set_option('display.max_colwidth', None)
 
 a_remplacer.drop_duplicates(['id_batiment'], inplace=True)
-print(a_remplacer.groupby("infra_id").value_counts().head(588))
+print(a_remplacer.groupby("infra_id").sum().value_counts().head(588))
 
 nouveau_reseau_arbre = pd.merge(left=reseauArbre, right=a_remplacer, on="infra_id", suffixes=('', '_y'))
 colonnes_a_garder = [col for col in nouveau_reseau_arbre.columns if not col.endswith('_y')]
