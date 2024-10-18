@@ -14,7 +14,7 @@ total_maisons_par_infra = df_a_remplacer.groupby('infra_id')['nb_maisons'].sum()
 a_remplacer_cleaned_merged = pd.merge(df_a_remplacer, total_maisons_par_infra, on='infra_id', suffixes=('', '_total'))
 
 # Recalculer la longueur par maison en divisant par le nombre total de maisons pour chaque 'infra_id'
-a_remplacer_cleaned_merged['difficulté'] = a_remplacer_cleaned_merged['longueur'] / a_remplacer_cleaned_merged['nb_maisons_total']
+a_remplacer_cleaned_merged['difficulte'] = a_remplacer_cleaned_merged['longueur'] / a_remplacer_cleaned_merged['nb_maisons_total']
 
 # a_remplacer_cleaned_merged['priorite'] = pd.cut(
 #     a_remplacer_cleaned_merged['longueur_par_maison'], 
@@ -23,7 +23,7 @@ a_remplacer_cleaned_merged['difficulté'] = a_remplacer_cleaned_merged['longueur
 # )
 
 # Trier les résultats en fonction de la nouvelle colonne 'longueur_par_maison'
-reseau_trie = a_remplacer_cleaned_merged.sort_values(by='difficulté', ascending=True)
+reseau_trie = a_remplacer_cleaned_merged.sort_values(by='difficulte', ascending=True)
 
 reseau_trie_final = reseau_trie.drop_duplicates(subset=[ "infra_id"])
 #Afficher les 50 premières lignes pour vérifier
@@ -31,10 +31,10 @@ reseau_trie_final = reseau_trie.drop_duplicates(subset=[ "infra_id"])
 
 # Regrouper les données par 'id_batiment' et calculer le total des difficultés pour chaque batiment
 
-total_difficulté_par_batiment = reseau_trie_final.groupby('id_batiment')['difficulté'].sum().reset_index()
+total_difficulte_par_batiment = reseau_trie_final.groupby('id_batiment')['difficulte'].sum().reset_index()
 
 # Fusionner ces informations avec le DataFrame des infrastructures à remplacer
-total_difficulté_par_batiment_merged = pd.merge(reseau_trie_final, total_difficulté_par_batiment, on='id_batiment', suffixes=('', '_total'))
+total_difficulte_par_batiment_merged = pd.merge(reseau_trie_final, total_difficulte_par_batiment, on='id_batiment', suffixes=('', '_total'))
 
 
-print(total_difficulté_par_batiment_merged.head(150))
+print(total_difficulte_par_batiment_merged.head(150))
