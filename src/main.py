@@ -2,18 +2,20 @@ from Batiment import Batiment
 from Infrastructure import Infra
 import pandas as pd
 
-df = pd.read_csv("final_infra.csv")
-df = df[df["infra_type"] == "a_remplacer"]
+df = pd.read_csv("reseau_en_arbre.csv")
+df = df[df["infra_type"] == "a_remplacer"].drop_duplicates()
 
 dict_infra = {}
 
-for i in range(0,len(df)):
-    dict_infra[df["infra_id"][i]] = Infra(df["infra_id"][i], df["longueur"][i], df["infra_type"][i], df["nb_maisons"][i])
+for i, y in df.groupby(by="infra_id"):
+    longueur = y["longueur"].iloc[0]
+    infra_type = y["infra_type"].iloc[0]
+    nbr_maisons = y["nb_maisons"].sum()
+    dict_infra[i] = Infra(i, longueur,infra_type, nbr_maisons)
 
 liste_batiment = []
 batiment_fini = []
 infra_fini = []
-
 
 for batiment_id in df["id_batiment"].unique():
     infra_id_df = df[df["id_batiment"] == batiment_id]["infra_id"]
@@ -38,3 +40,4 @@ while liste_batiment:
 
 print(liste_batiment)
 print([batiment.id_bat for batiment in batiment_fini])
+
